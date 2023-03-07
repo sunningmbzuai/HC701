@@ -118,13 +118,51 @@ def prepare_dataset(dataset,labels,transform=None):
 if __name__ == '__main__':
     
     wandb.init(project="hc_assign2_exp5", config={"learning_rate": 0.0001})
-    transform = transforms.Compose([
-    transforms.RandomHorizontalFlip(p=0.25),
-    transforms.RandomVerticalFlip(p=0.25),
-    transforms.ColorJitter(brightness=(0.5,1.5), contrast=(1), saturation=(0.5,1.5), hue=(-0.1,0.1)),
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))
-    ])
+    # exp_num denotes the experiment 
+    exp_num=1
+    if exp_num == 1:
+        transform = transforms.Compose([
+        transforms.RandomHorizontalFlip(p=0.25),
+        transforms.RandomVerticalFlip(p=0.25),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))
+        ])
+        model = OFAResNets(n_classes=2,dropout_rate=0.5, depth_list=[0, 1, 2],expand_ratio_list=[0.2, 0.25, 0.35],width_mult_list=[0.65, 0.8, 1.0])
+    elif exp_num==2:
+        transform = transforms.Compose([
+        transforms.RandomHorizontalFlip(p=0.25),
+        transforms.RandomVerticalFlip(p=0.25),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))
+        ])
+        model = OFAResNets(n_classes=2,dropout_rate=0.5, depth_list=[0, 1, 2],expand_ratio_list=[0.2, 0.25, 0.35],width_mult_list=[0.65, 0.8, 1.0])
+    elif exp_num == 3:
+        transform = transforms.Compose([
+        transforms.RandomHorizontalFlip(p=0.25),
+        transforms.RandomVerticalFlip(p=0.25),
+        transforms.ColorJitter(brightness=(0.5,1.5), contrast=(1), saturation=(0.5,1.5), hue=(-0.1,0.1)),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))
+        ])
+        model = OFAResNets(n_classes=2,dropout_rate=0.5, depth_list=[0, 1, 2],expand_ratio_list=[0.2, 0.25, 0.35],width_mult_list=[0.65, 0.8, 1.0])
+    elif exp_num == 4:
+        transform = transforms.Compose([
+        transforms.RandomHorizontalFlip(p=0.25),
+        transforms.RandomVerticalFlip(p=0.25),
+        transforms.ColorJitter(brightness=(0.5,1.5), contrast=(1), saturation=(0.5,1.5), hue=(-0.1,0.1)),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))
+        ])
+        model = OFAResNets(n_classes=2,dropout_rate=0.5, depth_list=[0, 1], expand_ratio_list=[0.2, 0.25], width_mult_list=[0.65, 0.8])
+    elif exp_num ==5:
+        transform = transforms.Compose([
+        transforms.RandomHorizontalFlip(p=0.25),
+        transforms.RandomVerticalFlip(p=0.25),
+        transforms.ColorJitter(brightness=(0.5,1.5), contrast=(1), saturation=(0.5,1.5), hue=(-0.1,0.1)),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))
+        ])
+        model = OFAResNets(n_classes=2,dropout_rate=0.5, depth_list=[0, 1], expand_ratio_list=[0.2, 0.3], width_mult_list=[0.8, 0.8])
     
     p_train_data,p_train_label = prepare_dataset(train_data,train_labels,transform)
     p_test_data,p_test_label= prepare_dataset(test_data,test_labels,transform=transforms.ToTensor())
@@ -133,7 +171,6 @@ if __name__ == '__main__':
     test_dataset = MyDataset(p_test_data,p_test_label)
     test_loader = DataLoader(test_dataset,batch_size=4)
     print('finish prepare data')
-    model = OFAResNets(n_classes=2,dropout_rate=0.5, depth_list=[0, 1], expand_ratio_list=[0.2, 0.3], width_mult_list=[0.8, 0.8])
     # print model parameters
     pytorch_total_params = sum(p.numel() for p in  model.parameters())
     print('Number of parameters: {0}'.format(pytorch_total_params))
