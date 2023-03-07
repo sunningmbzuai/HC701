@@ -1,2 +1,3 @@
 # HC701
-HC701 Assignment in MBZUAI
+This is the repo for HC701 Assignment in MBZUAI
+
